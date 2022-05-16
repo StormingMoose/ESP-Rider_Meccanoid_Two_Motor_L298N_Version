@@ -27,4 +27,6 @@ Electric motors of your choice.  Motor mounts for the one inch motors available 
 
 This works best on an Android phone. Computer screens are okay. Apple units, shrug.
 
-Can steer either by TAPPING slider bar or by tapping the left or right buttons.  Sometimes twice. Speed/Direction control buttons must be held.
+Can steer either by slider bar or by tapping the left or right buttons.  Sometimes twice. Speed/Direction control buttons must be held.
+
+Html page needs someone with more experience to make it user friendlier.
