@@ -109,7 +109,7 @@ body {
 
     <p>  </p>
   
-  <input type="range" min="70" max="110" value="90" class="slider" id="myRange">
+  <input type="range" min="50" max="110" value="80" class="slider" id="myRange">
    
 </div>
 

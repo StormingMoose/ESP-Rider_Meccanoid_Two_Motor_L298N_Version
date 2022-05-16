@@ -25,7 +25,7 @@ int MOTOR_DIR1_B = 21;//  Direction
 
 #define PWM_STOP 0
 #define PWM_SLOW 155 // arbitrary slow speed PWM duty cycle
-#define PWM_FAST 205 // arbitrary fast speed PWM duty cycle
+#define PWM_FAST 255 // arbitrary fast speed PWM duty cycle
 
 const int freq = 5000;
 const int resolution = 8;
@@ -89,6 +89,7 @@ void setup() {
 // This routine is executed when you open its IP in browser
 //===============================================================
 void loop(void) {
+
   server.handleClient();
 
 }
@@ -102,18 +103,26 @@ void handle_OnConnect() {
 }
 
 void handle_Steering_Slider_Input() {
+  int oldpoint = point;
+ 
   if(server.arg("value") ){
-  point = 180 - server.arg("value").toInt(); }  //    reverse direction high+low - given
+  point = 160 - server.arg("value").toInt(); }  //    reverse direction high+low - given
 
-//  if (servo1.isConnected()) {
+  if (point-oldpoint>12){  
       servo1.setColor(0, 1, 0)
             .setPosition(point);     
-    for (int i=1; i<10; ++i){chain.update();}
-//  chain.update();  
-//  delay(50);
-  Serial.print("Slider Input ");  
-  Serial.println(point);
-//  }
+      for (int i=1; i<10; ++i){chain.update();}
+      }
+  else if (point-oldpoint<-12){
+           servo1.setColor(0, 1, 0)
+                 .setPosition(point);     
+           for (int i=1; i<10; ++i){chain.update();}
+      }
+  else {point = oldpoint;
+       }
+
+//  Serial.print("Slider Input ");  
+//  Serial.println(point);
   server.send(200, "text/plain", "ok");
 }
 
@@ -172,8 +181,8 @@ void handle_Stop() {
 }
 
 void handle_Go_Righter() { // Receive an HTTP GET request for steering.  Depending on the position of sg90 servo could change name to Righter
- point = point - 5;
-  if (point < 70) {point = 70;}
+ point = point - 10;
+  if (point < 50) {point = 50;}
  // if (servo1.isConnected()) {
       servo1.setColor(0, 0, 1)
             .setPosition(point);
@@ -188,7 +197,7 @@ void handle_Go_Righter() { // Receive an HTTP GET request for steering.  Dependi
 
 
 void handle_Go_Lefter() { // Receive an HTTP GET request for steering.  And from above comment this could be renamed Lefter instead
-  point = point + 5;
+  point = point + 10;
   if (point > 110) { point = 110; }
   //if (servo1.isConnected()) {
     servo1.setColor(1, 0, 0)
